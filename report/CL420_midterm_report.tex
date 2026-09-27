@@ -1,0 +1,240 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.68in,top=0.62in,bottom=0.65in,includeheadfoot]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array,graphicx}
+\usepackage{float}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{teal}{HTML}{0B7285}
+\definecolor{orange}{HTML}{D9480F}
+\definecolor{ink}{HTML}{24313A}
+\definecolor{lightteal}{HTML}{E6F4F1}
+\definecolor{lightgray}{HTML}{F3F5F6}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=teal,
+  citecolor=teal,
+  urlcolor=teal,
+  pdftitle={Dynamic comparison of Monod and substrate inhibition models},
+  pdfauthor={Mridul Sharma, Sneha Shandilya, Diggaj Maheshwari}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3.2pt}
+\setlist[itemize]{leftmargin=1.25em,itemsep=1pt,topsep=2pt}
+\setlist[enumerate]{leftmargin=1.45em,itemsep=1pt,topsep=2pt}
+\renewcommand{\arraystretch}{1.08}
+\setlength{\tabcolsep}{4.5pt}
+
+\titleformat{\section}
+  {\large\bfseries\color{teal}}
+  {\thesection.}{0.45em}{}
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{ink}}
+  {\thesubsection}{0.4em}{}
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+\titlespacing*{\subsection}{0pt}{5pt}{2pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{teal}{CL 420 \textbar\ Project mid term}}
+\fancyhead[R]{\small\textcolor{ink}{Mathematical modelling and simulation}}
+\fancyfoot[C]{\small\textcolor{ink}{\thepage}}
+\renewcommand{\headrulewidth}{0.35pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcommand{\Ppastoris}{\textit{Pichia pastoris}}
+\newcommand{\Rlipase}{\textit{Rhizopus oryzae} lipase}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\methanol}{\text{methanol}}
+
+\begin{document}
+
+\begin{center}
+  {\color{teal}\rule{\textwidth}{1.2pt}}\\[5pt]
+  {\LARGE\bfseries\color{ink} Dynamic comparison of Monod and substrate inhibition models\\[2pt]}
+  {\LARGE\bfseries\color{ink} for recombinant lipase production in a methanol fed batch bioreactor}\\[7pt]
+  {\large\textcolor{teal}{CL 420, Introduction to Biochemical Engineering}}\\[5pt]
+  \begin{tabular}{c}
+    Mridul Sharma (23B0353) \quad Sneha Shandilya (23B0345) \quad Diggaj Maheshwari (23B0358)\\
+    \textit{Project mid term submission, 22 September 2026}
+  \end{tabular}\\[5pt]
+  {\color{teal}\rule{\textwidth}{0.45pt}}
+\end{center}
+
+\section{Motivation and objective}
+
+The course project asks us to connect microbial kinetics with upstream process operation. The local project instructions identify growth and product kinetics, material balances, oxygen demand, and bioreactor analysis as core parts of the project \cite{IITBProject,IITBKickoff}. This report uses those ideas in one controlled case study, recombinant \Rlipase{} production by \Ppastoris{} during methanol induction.
+
+The selected host and product do not duplicate the unavailable class topics listed by the course team. The broad topic is narrowed to one precise question: how does the choice between a monotonic Monod model and a substrate inhibition model change the predicted biomass, residual methanol, product activity, productivity, and oxygen demand under the same fed batch operation?
+
+The inhibition branch follows the model structure and parameter values reported by Ponte et al. \cite{Ponte2018,PonteThesis}. The Monod branch is a controlled comparator added for this project. It preserves the reported maximum rates and low substrate constants, then removes only the inhibition term.
+
+\section{Reference process and kinetic model}
+
+The reference process uses a methanol-utilizing \Ppastoris{} strain expressing \Rlipase{} under the methanol-induced $P_{AOX1}$ promoter. The reference simulations begin at $X_0=27\ \mathrm{g\,L^{-1}}$, $P_0=50\ \mathrm{U\,mL^{-1}}$, $V_0=2\ \mathrm{L}$, and $S_0=1\ \mathrm{g\,L^{-1}}$ for predefined feed profiles. The standard cases are constant feed, constant growth, linearly increasing growth, and constant substrate concentration \cite{PonteThesis}.
+
+For growth and product formation, the paper uses a non-monotonic substrate function. In the notation used here, the inhibition model is
+\begin{equation}
+  q_i(S)=q_{\max,i}\frac{S}{K_{S,i}+S+S^2/K_{I,i}},
+  \label{eq:haldane}
+\end{equation}
+where $i$ is either biomass growth or product formation. The comparator replaces equation~\eqref{eq:haldane} with the Monod form
+\begin{equation}
+  q_i(S)=q_{\max,i}\frac{S}{K_{S,i}+S}.
+  \label{eq:monod}
+\end{equation}
+The paper-faithful branch therefore retains the bell-shaped response, while the comparator predicts a continued increase towards saturation. Its growth and product peaks occur at about $1.9$ and $3.5\ \mathrm{g\,L^{-1}}$, respectively.
+
+\begin{table}[H]
+  \centering
+  \caption{Parameters used in both model branches. Values are from Table 5.1 of the accessible thesis version of the reference paper.}
+  \label{tab:parameters}
+  \small
+  \begin{tabularx}{\textwidth}{@{}l>{\raggedleft\arraybackslash}p{1.35cm}l@{\hspace{0.8em}}l>{\raggedleft\arraybackslash}p{1.35cm}l@{}}
+    \toprule
+    Parameter & Value & Unit & Parameter & Value & Unit \\
+    \midrule
+    $\mu_{\max}$ & 0.069 & $\mathrm{h^{-1}}$ & $q_{\max,P}$ & 2200 & $\mathrm{U\,g^{-1}\,h^{-1}}$ \\
+    $K_{S,X}$ & 0.50 & $\mathrm{g\,L^{-1}}$ & $K_{S,P}$ & 10.0 & $\mathrm{g\,L^{-1}}$ \\
+    $K_{I,X}$ & 7.5 & $\mathrm{g\,L^{-1}}$ & $K_{I,P}$ & 1.2 & $\mathrm{g\,L^{-1}}$ \\
+    $Y_{S/X}$ & 5.14 & $\mathrm{g\,g^{-1}}$ & $m_{S/X}$ & 0.013 & $\mathrm{g\,g^{-1}\,h^{-1}}$ \\
+    $Y_{O_2/X}$ & 0.206 & $\mathrm{mol\,g^{-1}}$ & $m_{O_2/X}$ & $6.1\times10^{-4}$ & $\mathrm{mol\,g^{-1}\,h^{-1}}$ \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+The uptake relations are
+\begin{equation}
+  q_S=Y_{S/X}\mu+m_{S/X}, \qquad
+  q_{O_2}=Y_{O_2/X}\mu+m_{O_2/X}.
+  \label{eq:uptake}
+\end{equation}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.83\textwidth]{figures/kinetic_laws.png}
+  \caption{Specific growth and product formation laws used in the simulation. The vertical markers show the reported critical substrate concentrations for the inhibition branch.}
+  \label{fig:kinetics}
+\end{figure}
+
+\section{Four state simulation method}
+
+The dynamic state vector is $[V, XV, SV, PV]$, where $XV$ is biomass amount, $SV$ is methanol amount, and $PV$ is total product activity. With a pure methanol feed approximation, the balances are
+\begin{equation}
+\begin{aligned}
+  \frac{\dd V}{\dd t}   &= \frac{F}{\rho_{\methanol}},\\
+  \frac{\dd (XV)}{\dd t} &= \mu XV,\\
+  \frac{\dd (SV)}{\dd t} &= F-q_S XV,\\
+  \frac{\dd (PV)}{\dd t} &= q_P XV.
+\end{aligned}
+\label{eq:balances}
+\end{equation}
+The simulation uses $\rho_{\methanol}=792\ \mathrm{g\,L^{-1}}$. Concentrations are recovered by dividing each amount by $V$. This amount formulation makes the feed and consumption terms explicit and avoids numerical ambiguity when the working volume changes.
+
+The four standard strategies follow the paper: CF uses $F=14\ \mathrm{g\,h^{-1}}$, CM targets $\mu=0.03\ \mathrm{h^{-1}}$, LM increases the target growth rate from $0.01$ to $0.04\ \mathrm{h^{-1}}$, and CS holds $S=2\ \mathrm{g\,L^{-1}}$. The CS implementation uses the algebraic feed balance with a small correction for numerical drift. The source describes an adaptive predictive PI controller but does not publish all tuned gains, so this report does not invent them.
+
+The ODEs are integrated with classical fourth order Runge Kutta at $\Delta t=0.01\ \mathrm{h}$. The process stops at the first of $X=55\ \mathrm{g\,L^{-1}}$, $V=5\ \mathrm{L}$, $S=10\ \mathrm{g\,L^{-1}}$, or $t=120\ \mathrm{h}$, matching the operating limits used in the source study. The CS result was repeated with $\Delta t=0.005\ \mathrm{h}$ as a numerical convergence check.
+
+Oxygen demand is derived after solving the four states. The total oxygen uptake rate is
+\begin{equation}
+  \mathrm{OUR}=q_{O_2}XV,
+  \qquad
+  \mathrm{OUR}_V=q_{O_2}X,
+  \label{eq:our}
+\end{equation}
+where OUR is in $\mathrm{mol\,h^{-1}}$ and $\mathrm{OUR}_V$ is in $\mathrm{mol\,L^{-1}\,h^{-1}}$. This is a demand calculation, not a claim that the oxygen transfer capacity of a particular vessel is sufficient.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/model_comparison.png}
+  \caption{Four state comparison for constant feed CF and constant substrate CS. The same initial conditions and feed definitions are used in both branches.}
+  \label{fig:comparison}
+\end{figure}
+
+\section{Simulation results}
+
+Table~\ref{tab:results} reports the final values at the first process limit. The inhibition branch is the paper-faithful result. The Monod branch is not a second literature result. It is the controlled counterfactual needed to answer the project question.
+
+\begin{table}[t]
+  \centering
+  \caption{Computed performance for the four standard strategies. $Q_P$ is the increase in total activity divided by final volume and process time. OUR$_{\max}$ is total oxygen demand.}
+  \label{tab:results}
+  \scriptsize
+  \begin{tabular}{@{}llrrrrr@{}}
+    \toprule
+    Model & Strategy & $t_f$ & $P_f$ & $Q_P$ & OUR$_{\max}$ & Stop condition \\
+    & & $\mathrm{h}$ & $\mathrm{U\,mL^{-1}}$ & $\mathrm{U\,L^{-1}\,h^{-1}}$ & $\mathrm{mol\,h^{-1}}$ & \\
+    \midrule
+    Inhibition & CF & 37.22 & 135.08 & 2619 & 0.589 & $X_{\max}$ \\
+    Inhibition & CM & 32.86 & 134.64 & 2945 & 0.986 & $X_{\max}$ \\
+    Inhibition & LM & 58.12 & 114.35 & 1328 & 0.838 & $X_{\max}$ \\
+    Inhibition & CS & 21.56 & 255.01 & 10057 & 1.437 & $X_{\max}$ \\
+    \addlinespace[1pt]
+    Monod & CF & 37.22 & 129.75 & 2475 & 0.576 & $X_{\max}$ \\
+    Monod & CM & 32.85 & 131.98 & 2865 & 0.986 & $X_{\max}$ \\
+    Monod & LM & 58.12 & 113.73 & 1318 & 0.838 & $X_{\max}$ \\
+    Monod & CS & 17.70 & 266.18 & 12870 & 1.719 & $X_{\max}$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The kinetic plot in Figure~\ref{fig:kinetics} explains the main difference. Monod kinetics keeps increasing with methanol, whereas the inhibition model reaches a maximum and then declines. The growth and product peaks also occur at different substrate concentrations, so a feed that is safe for growth is not automatically optimal for product formation.
+
+The CS case gives the strongest result in both branches because it places the culture near a productive methanol region and avoids the long low-feed tail of LM. At the paper-faithful CS setpoint of $2\ \mathrm{g\,L^{-1}}$, the inhibition model predicts $255.01\ \mathrm{U\,mL^{-1}}$. The Monod comparator predicts a higher value because removing inhibition makes the same setpoint artificially more favourable. This difference is the central value of the comparison.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.90\textwidth]{figures/strategy_summary.png}
+  \caption{Final product activity and volumetric productivity for all four strategies. The two model branches use identical process limits.}
+  \label{fig:summary}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.88\textwidth]{figures/oxygen_demand.png}
+  \caption{Derived oxygen demand for the inhibition branch. CS gives faster biomass and product formation, but it also creates the higher instantaneous oxygen requirement.}
+  \label{fig:oxygen}
+\end{figure}
+
+\section{Conclusion and limitations}
+
+This mid term study turns the broad topic into a reproducible engineering comparison. The paper-faithful branch uses a four state fed batch model with published kinetics and parameters. The Monod branch changes one modelling assumption, so the effect of substrate inhibition is visible without changing the feed strategy, starting state, numerical solver, or process limits.
+
+The results show why substrate inhibition matters in bioreactor operation. It changes the predicted productivity and prevents a high residual methanol concentration from being treated as universally beneficial. The derived oxygen calculation adds a practical reactor design consequence: the best product strategy also creates the largest oxygen demand and therefore needs an oxygen transfer check in the final project.
+
+The main limitation is scope. The source model also discusses oxygen and carbon dioxide balances, gas transfer, and an adaptive predictive PI controller. This report keeps oxygen as a derived demand because the requested mid term scope is four dynamic states. It therefore does not claim to reproduce a hidden controller tuning or a full OTR and $k_La$ design. The Python implementation, generated CSV files, and figures make that extension straightforward for the final submission.
+
+\begin{thebibliography}{9}
+\small
+\setlength{\itemsep}{1pt}
+
+\bibitem{Ponte2018}
+X. Ponte, J. M. Barrigón, M. Maurer, D. Mattanovich, F. Valero, and J. L. Montesinos-Seguí, ``Towards optimal substrate feeding for heterologous protein production in \Ppastoris{} fed-batch processes under $P_{AOX1}$ control: a modeling aided approach,'' \textit{Journal of Chemical Technology and Biotechnology}, vol. 93, pp. 3208--3218, 2018. DOI: \href{https://doi.org/10.1002/jctb.5677}{10.1002/jctb.5677}.
+
+\bibitem{PonteThesis}
+X. Ponte, ``Towards optimal substrate feeding for heterologous protein production in \Ppastoris{} fed batch process under $P_{AOX1}$ control: a modelling aided approach,'' doctoral thesis, Universitat Autònoma de Barcelona, 2017. Accessible at \href{https://ddd.uab.cat/pub/tesis/2017/hdl_10803_457712/xpf1de1.pdf}{ddd.uab.cat/pub/tesis/2017/hdl\_10803\_457712/xpf1de1.pdf}.
+
+\bibitem{IITBProject}
+Indian Institute of Technology Bombay, ``CL 420 Upstream Bioprocess Project, Student Instructions,'' local course file, `moodle-content/CL420 Upstream Bioprocess Project - Student Instructions.pdf`.
+
+\bibitem{IITBKickoff}
+Indian Institute of Technology Bombay, ``CL 420 Biochemical Engineering Kickoff,'' local course file, `moodle-content/CL\_420\_Biochemical\_Engineering\_Kickoff.pdf`.
+
+\bibitem{IITBModel}
+Indian Institute of Technology Bombay, ``Structured Model V1,'' local course file, `moodle-content/Structured Model V1.pdf`.
+
+\end{thebibliography}
+
+\end{document}

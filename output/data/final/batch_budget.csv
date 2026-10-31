@@ -1,0 +1,14 @@
+item,quantity,unit,INR_per_unit,cost_INR
+Seed medium and basal salts,1.0,batch,450.0,450.0
+Initial glycerol,0.08,kg,200.0,16.0
+"Transition feeds, pH stocks and antifoam",1.0,batch allowance,250.0,250.0
+Induction methanol,0.7053695514963787,kg,80.0,56.42956411971029
+Induction NH4Cl,0.08382834617956544,kg,200.0,16.765669235913087
+"Supplemental oxygen, induction",5.818814575434301,"m3 at 30 C, 1 bar",100.0,581.8814575434301
+"Compressed air, all phases",5.453895636775139,"m3 at 30 C, 1 bar",10.0,54.538956367751396
+Mixing electricity,2.746331941627386,kWh,10.0,27.46331941627386
+Sterilization and cooling,1.0,batch allowance,300.0,300.0
+Reactor occupancy,57.12578578246422,h,100.0,5712.578578246422
+"Clarification, membrane use and buffers",1.0,batch allowance,1500.0,1500.0
+Hands-on labor,6.0,h,150.0,900.0
+Waste treatment,1.0,batch allowance,150.0,150.0

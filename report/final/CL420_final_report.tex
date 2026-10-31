@@ -1,0 +1,354 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage[margin=0.73in,top=0.72in,bottom=0.70in,includeheadfoot]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs,tabularx,array,xcolor}
+\usepackage{setspace,fancyhdr,titlesec,caption,enumitem}
+\usepackage[hidelinks]{hyperref}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{ink}{HTML}{263640}
+\definecolor{pale}{HTML}{ECF5F5}
+\definecolor{orange}{HTML}{D65B29}
+\hypersetup{colorlinks=true,linkcolor=teal,citecolor=teal,urlcolor=teal,
+  pdftitle={Dynamic comparison of Monod and substrate inhibition models: recombinant lipase production and oxygen transfer design},
+  pdfauthor={Mridul Sharma, Sneha Shandilya, Diggaj Maheshwari}}
+\onehalfspacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\headheight}{17pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.10}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlist[itemize]{leftmargin=1.3em,itemsep=1pt,topsep=2pt}
+\titleformat{\section}{\large\bfseries\color{teal}}{\thesection.}{0.45em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{ink}}{\thesubsection}{0.45em}{}
+\titlespacing*{\section}{0pt}{3pt}{6pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+\captionsetup{font=normalsize,labelfont=bf,skip=4pt,hypcap=false}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\fontsize{10}{12}\selectfont\textcolor{teal}{CL 420 \textbar\ Final course project}}
+\fancyhead[R]{\fontsize{10}{12}\selectfont\textcolor{ink}{Group 21}}
+\fancyfoot[C]{\fontsize{10}{12}\selectfont\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\newcommand{\pp}{\textit{Pichia pastoris}}
+\newcommand{\rol}{\textit{Rhizopus oryzae} lipase}
+\newcommand{\unit}[1]{\,\mathrm{#1}}
+\newcommand{\fig}[3]{\begin{center}\includegraphics[width=#2\textwidth]{figures/#1.pdf}\captionof{figure}{#3}\end{center}}
+\newcommand{\tighttable}{\setstretch{1.07}}
+\input{numbers.tex}
+
+\begin{document}
+\thispagestyle{empty}
+\vspace*{0.04in}
+\begin{center}
+\setstretch{1.05}
+\begin{minipage}{0.96\textwidth}
+\centering
+{\fontsize{21}{27}\selectfont\bfseries\color{ink}
+Dynamic comparison of Monod\\[2pt]
+and substrate inhibition models\par}
+\vspace{10pt}
+{\fontsize{13}{18}\selectfont\itshape
+Recombinant lipase production and oxygen transfer design\par}
+\end{minipage}
+
+\vspace{16pt}
+{\normalsize CL 420, Introduction to Biochemical Engineering\par}
+\vspace{4pt}
+{\normalsize\color{teal}Final course project report\par}
+
+\vspace{16pt}
+\includegraphics[width=1.55in,keepaspectratio]{../../IITB Logo.png}\par
+\vspace{16pt}
+{\normalsize\bfseries Group 21\par}
+\vspace{5pt}
+\begin{tabular}{@{}l@{\hspace{2.4em}}l@{}}
+Mridul Sharma & 23B0353\\[3pt]
+Sneha Shandilya & 23B0345\\[3pt]
+Diggaj Maheshwari & 23B0358\\
+\end{tabular}
+\vspace{10pt}
+\par Indian Institute of Technology Bombay\par
+\end{center}
+\vspace{10pt}
+\begingroup
+\hyphenpenalty=10000
+\emergencystretch=1em
+\subsection*{Abstract}
+A fed batch process for extracellular recombinant \rol{} production by \pp{} is evaluated using Monod and substrate inhibition kinetics. Published rate functions and parameters are implemented in Python. Four material balances include nutrient feed volume and explicit methanol feeding policies. Eight reference simulations are followed by a constant substrate setpoint screen, oxygen transfer calculations, and a batch cost estimate. Under the inhibition model, a screened methanol setpoint of \Setpoint{} g L\textsuperscript{\(-1\)} gives a predicted harvest activity of \FinalActivity{} U mL\textsuperscript{\(-1\)} after \FinalTime{} h of induction. The corresponding productivity is \FinalProductivity{} U L\textsuperscript{\(-1\)} h\textsuperscript{\(-1\)}. Oxygen enrichment and an independently qualified transfer capacity are necessary for this candidate operating point. The study connects kinetic model selection to feeding, oxygen supply, product recovery, and operating cost. All performance results are model predictions.
+\par\endgroup
+
+\newpage
+\section{Product and process definition}
+\subsection{Product, application and design basis}
+Recombinant \rol{} catalyses lipid hydrolysis and can support ester synthesis and transesterification. Its industrial applications include biodiesel and structured lipid production. The proposed product is a concentrated liquid enzyme preparation for industrial biocatalysis. The target customers are enzyme formulators and process developers \cite{PonteThesis,Lopez2019}.
+
+The design is based on a nominal 5 L stirred vessel and a 2 L initial induction volume. A 3.5 L working limit provides headspace for aeration and foam. Product output is expressed as lipase activity, with concentration in U mL$^{-1}$ and total batch activity in U. Production and costs are evaluated per batch and per million recovered U.
+
+\subsection{Host and metabolic basis}
+The host is \pp{} X-33 carrying pPICZ$\alpha$ROL under the methanol induced $P_{AOX1}$ promoter, with the Mut\textsuperscript{+} phenotype. This strain secretes ROL into the broth, which allows cell removal without cell disruption. The host and cultivation conditions are adopted from the published ROL process \cite{PonteThesis}.
+
+Glycerol first supports biomass growth. After a transition phase, methanol acts as both carbon source and inducer. Alcohol oxidase converts methanol to formaldehyde and hydrogen peroxide. Catalase removes hydrogen peroxide. Formaldehyde is either assimilated through the xylulose monophosphate pathway or oxidized towards carbon dioxide for energy generation. Oxygen is required for methanol oxidation and respiration. Carbon dioxide and metabolic heat are important process outputs \cite{PonteThesis}.
+
+\subsection{Critical quality attributes}
+\begin{center}\tighttable
+\begin{tabularx}{\textwidth}{@{}L{0.28\textwidth}Y@{}}\toprule
+Attribute & Proposed assessment\\\midrule
+Enzyme activity & Activity per mL and total recovered U using a fixed assay.\\
+Product integrity & Activity relative to protein content, with a proteolysis check.\\
+Process impurities & Residual methanol, salts and viable host cells after recovery.\\
+Storage stability & Retained activity during storage of the liquid preparation.\\\bottomrule
+\end{tabularx}
+\end{center}
+These are proposed release attributes. Numerical acceptance limits require application and stability data. Activity values retain the assay basis of the published kinetic parameters, a Roche colorimetric method on clarified culture liquid at 30\,$^{\circ}$C and pH 7.25, measured at 580 nm \cite{PonteThesis}. These conditions define the activity units used in the simulations.
+
+\newpage
+\section{Process configuration and operating basis}
+Fed batch operation controls residual methanol while avoiding continuous product withdrawal. It also separates biomass development from induction. Excess methanol can inhibit growth and production, while insufficient methanol limits the induced process. This supports controlled feeding rather than a large initial methanol charge \cite{Ponte2018}.
+
+\begin{center}\tighttable
+\captionof{table}{Operating basis. L denotes literature input and D denotes a design assumption.}
+\begin{tabularx}{\textwidth}{@{}L{0.29\textwidth}YL{0.14\textwidth}@{}}\toprule
+Quantity & Value or operating rule & Basis\\\midrule
+Vessel & Stirred tank, nominal 5 L & L \cite{PonteThesis}\\
+Induction start & $V_0=2$ L, $X_0=27$ g L$^{-1}$, $P_0=50$ U mL$^{-1}$ & L \cite{PonteThesis}\\
+Residual methanol & 2 g L$^{-1}$ for all reference starts & D\\
+Temperature and pH & 30\,$^{\circ}$C and 5.5 & L \cite{PonteThesis}\\
+Dissolved oxygen & 25\% of air saturation & L \cite{PonteThesis}\\
+Agitation and gas & 800 to 1000 rpm, 1 to 2 vvm with oxygen enrichment & L \cite{PonteThesis}\\
+Working limits & 3.5 L, 55 g L$^{-1}$ biomass, 10 g L$^{-1}$ methanol & D, L \cite{PonteThesis}\\\bottomrule
+\end{tabularx}
+\end{center}
+
+The proposed 0.13 m tank diameter gives a 151 mm liquid depth at 2 L. Impeller centres at 40 and 105 mm, with 13 mm blades, keep both turbines submerged initially.
+
+\subsection{Inoculum, medium and process sequence}
+The proposed inoculum stage adopts YPD medium in baffled flasks for 24 h at 30\,$^{\circ}$C and 150 rpm. Cells are collected and resuspended in basal medium. The seed stage can run in parallel with reactor preparation \cite{PonteThesis}.
+
+The basal medium contains, per litre, 40 g glycerol, 26.7 mL of 85\% phosphoric acid, 0.93 g CaSO$_4$, 18.2 g K$_2$SO$_4$, 14.9 g MgSO$_4\!\cdot\!$7H$_2$O, 4.13 g KOH, 5 mL trace stock, 2 mL biotin stock and 0.5 mL antifoam. Trace stock supplies Fe, Zn, Cu, Mn, Co and other micronutrients \cite{PonteThesis}.
+
+After glycerol depletion, the design adopts a 5 h transition with glycerol feeding and stepwise methanol addition. Induction then uses methanol with trace nutrients and a linked 200 g L$^{-1}$ NH$_4$Cl feed. The ratio is 0.12 g NH$_4$Cl per g methanol \cite{PonteThesis}. The simulation begins at induction, not at inoculation. The scheduling allowance is 18 h for the glycerol batch, 5 h for transition, \FinalTime{} h for induction and 6 h for turnaround. The transition duration is literature based. The resulting reactor occupancy is \Occupancy{} h.
+
+\newpage
+\section{Growth and product formation kinetics}
+The inhibition model uses substrate dependent growth and production rates. The Monod comparator removes the inhibition term while retaining the same nominal coefficients \cite{PonteThesis}.
+\begin{align}
+q_i^{\mathrm{H}}(S)&=q_{\max,i}\frac{S}{K_{S,i}+S+S^2/K_{I,i}},\\
+q_i^{\mathrm{M}}(S)&=q_{\max,i}\frac{S}{K_{S,i}+S},\qquad i=X,P.
+\end{align}
+Here $q_X=\mu$. This comparison tests the effect of a modelling assumption. It is not a separate fit of Monod parameters to experimental data.
+
+\begin{center}\tighttable
+\captionof{table}{Kinetic inputs from the thesis, Table 5.1 \cite{PonteThesis}.}
+\begin{tabular}{@{}lll@{}}\toprule
+Parameter & Value & Unit\\\midrule
+$\mu_{\max},\ K_{S,X},\ K_{I,X}$ & 0.069, 0.50, 7.5 & h$^{-1}$, g L$^{-1}$, g L$^{-1}$\\
+$q_{\max,P},\ K_{S,P},\ K_{I,P}$ & 2200, 10.0, 1.2 & U g$^{-1}$ h$^{-1}$, g L$^{-1}$, g L$^{-1}$\\
+$Y_{S/X},\ m_S$ & 5.14, 0.013 & g g$^{-1}$, g g$^{-1}$ h$^{-1}$\\
+$Y_{O_2/X},\ m_{O_2}$ & 0.206, $6.1\times10^{-4}$ & mol g$^{-1}$, mol g$^{-1}$ h$^{-1}$\\\bottomrule
+\end{tabular}
+\end{center}
+\begin{equation}
+q_S=5.14\mu+0.013,\qquad q_{O_2}=0.206\mu+0.00061.
+\end{equation}
+The units are g methanol g$^{-1}$ h$^{-1}$ and mol O$_2$ g$^{-1}$ h$^{-1}$, respectively. The coefficient 5.14 is substrate per biomass. Its reciprocal, 0.1946 g g$^{-1}$, is the intrinsic biomass yield before maintenance.
+
+\fig{kinetic_models}{0.98}{Rate laws used in the study. Inhibition produces finite substrate optima.}
+
+The inhibition peaks occur at $S=\sqrt{K_SK_I}$, about 1.94 g L$^{-1}$ for growth and 3.46 g L$^{-1}$ for production. The achieved peak rates are 0.0455 h$^{-1}$ and 324.8 U g$^{-1}$ h$^{-1}$, below the nominal coefficients. Production is modelled as growth linked during methanol induction, with a separate $q_P(S)$ law and a variable activity to biomass yield. This is not a constant $q_P/\mu$ relationship. Production in nongrowing cells is not established by this formulation.
+
+\newpage
+\section{Material balances and numerical method}
+Let $B=XV$, $M=SV$ and $A=1000PV$ denote total biomass in g, methanol in g and product activity in U. The factor 1000 converts $P$ from U mL$^{-1}$ to U L$^{-1}$. The four states are $V,B,M,A$. Methanol feed $F$ is in g h$^{-1}$.
+\begin{align}
+\frac{dV}{dt}&=aF,& a&=\frac{1}{792}+\frac{0.12}{200}=0.0018626\unit{L\,g^{-1}},\\
+\frac{dB}{dt}&=\mu B,&\frac{dM}{dt}&=F-q_SB,\\
+\frac{dA}{dt}&=q_PB,& X&=B/V,\quad S=M/V.
+\end{align}
+The additive liquid volume approximation uses a 20\,$^{\circ}$C methanol feed density of 792 g L$^{-1}$ \cite{MethanolDensity} and the linked nitrogen stock \cite{PonteThesis}. Sampling, evaporation, base and antifoam additions are omitted. A 5\% working volume allowance is checked separately. Amount balances avoid ambiguity from changing volume, consistent with the course fed batch treatment \cite{CourseFedBatch}.
+
+\begin{center}\tighttable
+\captionof{table}{Feeding policies implemented in this study.}
+\begin{tabularx}{\textwidth}{@{}L{0.08\textwidth}Y@{}}\toprule
+Case & Definition\\\midrule
+CF & $F=14$ g h$^{-1}$.\\
+CM & $F=q_S(0.03)B_0\exp(0.03t)$. A prescribed feed, not biomass feedback.\\
+LM & $F=q_S(\mu_T)B_0\exp(\int_0^t\mu_T\,dt)$, with $\mu_T=0.01+0.0005t$ up to 60 h, then 0.04 h$^{-1}$.\\
+CS & $F=q_SB/(1-aS)$, the ideal balance required for constant $S$.\\\bottomrule
+\end{tabularx}
+\end{center}
+CF, CM and CS target values follow the published strategy definitions. The 60 h LM ramp is an explicit study assumption. CM and LM targets need not equal the actual transient growth rate. Their feed histories are identical across the two kinetic models. CS uses each model's uptake rate, so its feed history differs between models. It represents an ideal setpoint policy, rather than a simulated physical controller.
+
+Classical fourth order Runge Kutta uses a 0.01 h step. Integration stops at the first biomass, volume, methanol or 120 h limit. Event times are refined within the final step. All eight cases pass step halving, with maximum relative harvest activity change below $3\times10^{-10}$. Integrated substrate and activity balances are also checked. An independent closed form CS solution verifies the selected case to below $10^{-12}$ relative error. These are numerical checks, not experimental validation.
+
+\newpage
+\section{Dynamic comparison and reference results}
+\fig{dynamic_comparison}{0.99}{Reference CF and CS trajectories. Each model pair has the same initial state and operating limits. CS holds 2 g L$^{-1}$.}
+
+\begin{center}\tighttable
+\captionof{table}{Kinetic reference endpoints before oxygen screening. Each run reaches 55 g L$^{-1}$ biomass.}
+\input{result_rows.tex}
+\end{center}
+Net volumetric productivity is defined as $Q_P=(A_f-A_0)/(V_ft_f)$. The inhibition CS reference gives 273.67 U mL$^{-1}$ and 9,162 U L$^{-1}$ h$^{-1}$. Monod CS gives 285.94 U mL$^{-1}$ and a shorter induction time. Under CF, Monod instead predicts a lower harvest activity. The effect of removing inhibition depends on the resulting substrate and biomass trajectory, not only the instantaneous rate curve.
+
+These references assume sufficient oxygen and exclude minor feed volume allowances. All starts use 2 g L$^{-1}$ methanol. The selected design is checked separately for the 5\% volume reserve and oxygen constraint.
+
+\newpage
+\section{Oxygen transfer and reactor design}
+Derived demand is compared with gas transfer capacity at a fixed dissolved oxygen target \cite{PonteThesis,CourseFedBatch}.
+\begin{equation}
+\mathrm{OUR}_{V}=q_{O_2}X,\qquad
+\mathrm{OTR}_{V}=k_La\,\Delta C_{\mathrm{lm}}.
+\end{equation}
+The adopted air saturation value at 30\,$^{\circ}$C is $C^*_{\mathrm{air}}=2.3\times10^{-4}$ mol L$^{-1}$ \cite{PonteThesis}. The 25\% air calibrated DO target gives $C_L=5.75\times10^{-5}$ mol L$^{-1}$. Oxygen enrichment changes $C^*$, while this absolute DO target is retained.
+
+Gas flow is specified at 30\,$^{\circ}$C and 1 bar absolute. One mol CO$_2$ is assumed to replace each mol O$_2$ consumed, keeping dry gas flow constant. Let $g=G/V$, $c=C^*_{\mathrm{air}}/0.21$ and $y$ denote oxygen mole fraction. For plug flow gas and well mixed liquid,
+\begin{align}
+G&=\frac{60\,q_gV\,p}{RT},&y_{\mathrm{out}}&=y_{\mathrm{in}}-\frac{\mathrm{OUR}}{G},\\
+\mathrm{OTR}_{V,\max}&=\frac{g}{c}(cy_{\mathrm{in}}-C_L)\left[1-\exp\left(-\frac{k_Lac}{g}\right)\right].&&
+\end{align}
+Equation 9 integrates the gas balance and includes oxygen depletion at the capacity itself. At fixed vvm, gas blend, DO and $k_La$, volumetric capacity is constant. Pressure gradients and broth solubility corrections are omitted.
+
+\begin{center}\tighttable
+\captionof{table}{Proposed geometry and transfer qualification basis. Geometry and power factors are design assumptions.}
+\begin{tabularx}{\textwidth}{@{}L{0.43\textwidth}Y@{}}\toprule
+Quantity & Selected value or estimate\\\midrule
+Tank and impeller diameters & 0.130 m and 0.065 m, two Rushton turbines\\
+Agitation and total gas & 1000 rpm and 2 vvm, within literature ranges\\
+Power number and gassing factor & $N_P=5.0$, $P_g/P_0=0.70$\\
+Calculated power & $P_0=53.7$ W, $P_g=\GassedPower$ W\\
+Harvest power and gas velocity & \PowerDensity{} kW m$^{-3}$ and \Superficial{} m s$^{-1}$\\
+Qualification requirement & $k_La\geq1000$ h$^{-1}$ in the actual broth\\\bottomrule
+\end{tabularx}
+\end{center}
+The transfer correlations use SI units, with $P_g/V$ in W m$^{-3}$, $u_s$ in m s$^{-1}$ and $k_La$ in s$^{-1}$ \cite{VanRiet,Yawalkar,Labik}.
+\begin{equation}
+\begin{aligned}
+k_La_{\mathrm{water}}&=0.026(P_g/V)^{0.4}u_s^{0.5},\\
+k_La_{\mathrm{electrolyte}}&=0.002(P_g/V)^{0.7}u_s^{0.2}.
+\end{aligned}
+\end{equation}
+Power follows $P_0=n_iN_P\rho N^3D_i^5$, with $N=1000/60$ s$^{-1}$ and $\rho=1000$ kg m$^{-3}$. Correlations give \WaterKla{} and \ElectrolyteKla{} h$^{-1}$ for water and electrolyte \cite{VanRiet,Yawalkar,Labik}. These are screening extrapolations. The 1000 h$^{-1}$ target requires broth measurement.
+
+\newpage
+\section{Oxygen feasibility and feeding selection}
+\begingroup\setlength{\topsep}{1pt}\setlength{\partopsep}{0pt}
+\fig{oxygen_design}{0.99}{Transfer screen for the selected inhibition case at \Setpoint{} g L$^{-1}$. Capacity uses the 1000 h$^{-1}$ qualification target and the stated gas balance.}
+
+At harvest, $\mathrm{OUR}_V=\PeakVolOUR$ mmol L$^{-1}$ h$^{-1}$ and total OUR is \PeakOUR{} mol h$^{-1}$. At 75\% inlet O$_2$ and 2 vvm, $H=(g/c)(cy_{\mathrm{in}}-C_L)=3.3207$ mol L$^{-1}$ h$^{-1}$. Inverting Equation 9 gives
+\begin{equation*}
+k_La_{\mathrm{req}}=-\frac{4.7608}{0.00109524}\ln\left[1-\frac{1.20(0.52204)}{3.3207}\right]\approx\KlaRequired\unit{h^{-1}}.
+\end{equation*}
+At the 1000 h$^{-1}$ qualification target, capacity is \TransferCapacity{} mmol L$^{-1}$ h$^{-1}$ and exceeds demand by at least 20\%. Air alone fails this screen. The DO loop adjusts agitation and enrichment.
+
+\fig{setpoint_scan}{0.99}{Constant setpoint screen in 0.1 g L$^{-1}$ increments. Each case starts at its own setpoint. Faded Monod portions fail the oxygen screen. The vertical line marks the selected inhibition case.}
+
+Under inhibition, the best feasible grid point is \Setpoint{} g L$^{-1}$, giving \FinalActivity{} U mL$^{-1}$ and \FinalProductivity{} U L$^{-1}$ h$^{-1}$. Productivity is \ProductivityGain\% above the 2 g L$^{-1}$ reference. Setpoints from 3.2 to 3.6 g L$^{-1}$ differ by less than 0.3\%. Under the same oxygen screen, Monod's best feasible point is \MonodFeasibleSetpoint{} g L$^{-1}$ and \MonodFeasibleProductivity{} U L$^{-1}$ h$^{-1}$, despite its rising unfiltered curve. These are candidate points, not proven biological optima, and exclude controller transients.
+\endgroup
+
+\newpage
+\section{Sensitivity, monitoring and control}
+\fig{sensitivity}{0.98}{One input at a time sensitivity around the selected inhibition case. Each listed coefficient is changed by 20\%, while the setpoint and remaining inputs are held fixed.}
+
+The scenarios are not confidence intervals. Large product curve coefficient uncertainty limits setpoint precision \cite{PonteThesis}. At constant substrate, faster growth shortens induction but also reduces accumulated activity. These effects largely cancel in $Q_P$, explaining its weak growth sensitivity. Product rate uncertainty directly changes activity and cost. Increasing the growth coefficient by 20\% violates the oxygen allowance despite little change in $Q_P$.
+
+\begin{center}\tighttable
+\captionof{table}{Proposed process analytical technology and control actions. Published monitoring methods are extended into a design control plan \cite{PonteThesis}.}
+\begin{tabularx}{\textwidth}{@{}L{0.22\textwidth}L{0.31\textwidth}Y@{}}\toprule
+Variable & Measurement & Action or interpretation\\\midrule
+Methanol & Online sensor, HPLC check & Adjust feed to the chosen setpoint.\\
+DO and gas & DO probe, inlet flow, off gas O$_2$/CO$_2$ & Cascade agitation and oxygen blend. Reduce feed if capacity is exhausted.\\
+pH and temperature & Online probes & KOH dosing and jacket cooling.\\
+Volume and foam & Feed scales, level and foam probes & Enforce working limit and antifoam additions.\\
+Biomass and nutrients & Offline DCW and ammonium & Check growth and linked nutrient supply.\\
+Product and viability & Offline activity, protein and viable cells & Determine harvest readiness and detect degradation.\\\bottomrule
+\end{tabularx}
+\end{center}
+The methanol controller implementation is not modelled. An operating system would require sensor calibration, feed pump limits and tested tuning. High agitation is supported by the published stirred process, but strain specific shear limits and broth rheology remain unmeasured. Cell viability, foam and protease release should be checked when increasing agitation. The transfer correlations assume a low viscosity liquid and do not resolve these effects.
+
+\newpage
+\section{Recovery and rough batch economics}
+\fig{recovery_process}{1.0}{Proposed recovery sequence. Lipase remains in the liquid product stream.}
+Published ROL processing uses centrifugation, microfiltration and ultrafiltration \cite{Lopez2019}. Diafiltration is proposed for methanol and salt removal, subject to retention and activity checks. Chromatography and drying are omitted because the selected product is an industrial liquid preparation. A combined 70\% activity recovery is assumed, with 50\% and 90\% scenarios. Membrane retention, product stability and actual purity require confirmation.
+
+The budget below uses explicit planning rates in INR, not supplier quotations. Reactor occupancy includes the assumed preinduction and turnaround periods. Equipment use is charged through an occupancy rate. Capital purchase, taxes, sales margins and a selling price are outside this estimate. All gas volumes use 30\,$^{\circ}$C and 1 bar.
+
+\begin{center}\tighttable
+\captionof{table}{Illustrative cost for the selected batch. Detailed quantities are calculated by the accompanying Python model.}
+\begin{tabularx}{\textwidth}{@{}L{0.28\textwidth}Yr@{}}\toprule
+Cost group & Assumed rate or allowance & INR\\\midrule
+Medium and feeds & Seed/salts 450, transition/minor stocks 250, glycerol 200/kg, methanol 80/kg, NH$_4$Cl 200/kg & 789\\
+Gas and utilities & O$_2$ 100/m$^3$, air 10/m$^3$, electricity 10/kWh, thermal allowance 300 & 964\\
+Reactor occupancy & \Occupancy{} h at INR 100/h & 5,713\\
+Recovery & Membrane use, clarification and buffers & 1,500\\
+Labour & 6 h at INR 150/h & 900\\
+Waste treatment & Batch allowance & 150\\\midrule
+Total & Rounded sum from unrounded calculations & \BatchCost\\\bottomrule
+\end{tabularx}
+\end{center}
+Recovered activity is $0.70\times\FinalTotalActivity\times10^6=\RecoveredActivity\times10^6$ U. The corresponding cost is INR \UnitCost{} per million recovered U. At 50\% and 90\% recovery, it becomes INR \LowRecoveryCost{} and INR \HighRecoveryCost{}, respectively. A separate 25\% change in all budget rates changes total cost by 25\%. This is a preliminary batch budget, not an industrial profitability claim.
+
+\newpage
+\section{Design summary and scale up considerations}
+\begin{center}\tighttable
+\captionof{table}{Selected inhibition model operating point and engineering outputs.}
+\begin{tabularx}{\textwidth}{@{}L{0.47\textwidth}Y@{}}\toprule
+Quantity & Predicted value or requirement\\\midrule
+Methanol setpoint and induction time & \Setpoint{} g L$^{-1}$ and \FinalTime{} h\\
+Harvest volume and biomass & \FinalVolume{} L and \FinalBiomass{} g DCW\\
+Methanol and linked NH$_4$Cl feed & \MethanolFed{} g and \NitrogenMass{} g\\
+Pure methanol and nitrogen stock volumes & \MethanolVolume{} L and \NitrogenVolume{} L\\
+Peak methanol feed & \MaxFeed{} g h$^{-1}$\\
+Harvest activity and net productivity & \FinalActivity{} U mL$^{-1}$ and \FinalProductivity{} U L$^{-1}$ h$^{-1}$\\
+Predicted $Y_{X/S}$ and activity $Y_{P/S}$ & \BiomassYield{} g g$^{-1}$ and \ActivityYield{} U g$^{-1}$\\
+Peak OUR and transfer target & \PeakOUR{} mol h$^{-1}$ and $k_La\geq1000$ h$^{-1}$\\
+Total inlet gas at harvest & \GasFlow{} L min$^{-1}$, 75\% O$_2$ upper capacity case\\\bottomrule
+\end{tabularx}
+\end{center}
+For example, $\Delta B=55(\FinalVolume)-27(2)\approx127.56$ g and methanol consumption is \MethanolConsumed{} g. Thus $Y_{X/S}=127.56/\MethanolConsumed\approx\BiomassYield$ g g$^{-1}$. The activity yield uses net induction activity, $Y_{P/S}=\FinalNetActivity\times10^6/\MethanolConsumed\approx\ActivityYield$ U g$^{-1}$. These yields include maintenance. Adding 5\% to the selected working volume gives 3.466 L, below the 3.5 L limit. Net productivity over the assumed \Occupancy{} h reactor cycle is \CycleProductivity{} U L$^{-1}$ h$^{-1}$, compared with \FinalProductivity{} during induction alone.
+
+\subsection{Industrial scale up}
+Industrial transfer requires matching oxygen supply, mixing and heat removal, rather than holding rpm or vvm unchanged. Ponte reports poorer ROL performance after transfer to 50 L despite nominal DO control, showing that a probe reading alone does not establish equivalent cell conditions. A separate \pp{} study demonstrated 1000 L operation using pressure and a revised methanol feed, but produced a different intracellular enzyme. It supports pressure and feeding as scale up options, not transfer of its titer to ROL \cite{PonteThesis,ScaleUp}. A pilot study should first establish broth $k_La$, mixing time, off gas depletion, cooling duty and activity recovery. No industrial production rate is extrapolated from the present bench model.
+
+\subsection{Conclusion and limits}
+The inhibition model supports a candidate constant substrate operating region near the product rate peak. Its best screened point improves nominal productivity while requiring enriched oxygen and verified transfer capacity. The Monod comparator favours a different substrate policy. The decision is conditional on the kinetic inputs and the stated equipment qualification. The model excludes adaptation lag, oxygen limited physiology, degradation and spatial gradients. Its four reactor states do not make it an intracellular structured model \cite{CourseStructured}. Experimental kinetic checks and broth transfer measurements are required before operation.
+
+\newpage
+\begingroup
+\onehalfspacing
+\begin{thebibliography}{99}
+\setlength{\itemsep}{7pt}
+\bibitem{PonteThesis}
+X. Ponte Font, \textit{Bioprocess efficiency as a roadmap to establish Pichia pastoris as a reliable cell factory}, doctoral thesis, Universitat Aut\`onoma de Barcelona, 2017. \href{https://ddd.uab.cat/pub/tesis/2017/hdl_10803_457712/xpf1de1.pdf}{UAB repository full text}.
+
+\bibitem{Lopez2019}
+J. L\'opez-Fern\'andez, M. D. Benaiges and F. Valero, ``Truncated prosequence of Rhizopus oryzae lipase: key factor for production improvement and biocatalyst stability,'' \textit{Catalysts}, vol. 9, 961, 2019. \href{https://doi.org/10.3390/catal9110961}{doi:10.3390/catal9110961}.
+
+\bibitem{Ponte2018}
+X. Ponte, J. M. Barrig\'on, M. Maurer, D. Mattanovich, F. Valero and J. L. Montesinos-Segu\'i, ``Towards optimal substrate feeding for heterologous protein production in Pichia pastoris (Komagataella spp) fed batch processes under $P_{AOX1}$ control: a modeling aided approach,'' \textit{Journal of Chemical Technology and Biotechnology}, vol. 93, pp. 3208 to 3218, 2018. \href{https://doi.org/10.1002/jctb.5677}{doi:10.1002/jctb.5677}.
+
+\bibitem{VanRiet}
+K. van't Riet, ``Review of measuring methods and results in nonviscous gas liquid mass transfer in stirred vessels,'' \textit{Industrial and Engineering Chemistry Process Design and Development}, vol. 18, pp. 357 to 364, 1979. \href{https://doi.org/10.1021/i260071a001}{doi:10.1021/i260071a001}.
+
+\bibitem{ScaleUp}
+W. C. Liu, T. Gong, Q. H. Wang, X. Liang, J. J. Chen and P. Zhu, ``Scaling up fermentation of Pichia pastoris to demonstration scale using new methanol feeding strategy and increased air pressure instead of pure oxygen supplement,'' \textit{Scientific Reports}, vol. 6, 18439, 2016. \href{https://doi.org/10.1038/srep18439}{doi:10.1038/srep18439}.
+
+\bibitem{Yawalkar}
+A. A. Yawalkar et al., ``Gas liquid mass transfer coefficient in stirred tank reactors,'' \textit{Canadian Journal of Chemical Engineering}, vol. 80, pp. 840 to 848, 2002. Table 2 and nomenclature. \href{https://pure.rug.nl/ws/portalfiles/portal/14527504/2002CanJChemEngYawalkar2.pdf}{Author institution full text}.
+
+\bibitem{Labik}
+L. Lab\'ik et al., ``Volumetric mass transfer coefficient in viscous liquid in mechanically agitated fermenters. Measurement and correlation,'' \textit{Chemical Engineering Science}, vol. 170, pp. 451 to 463, 2017. \href{https://doi.org/10.1016/j.ces.2017.04.006}{doi:10.1016/j.ces.2017.04.006}.
+
+\bibitem{CourseFedBatch}
+Indian Institute of Technology Bombay, CL 420, \textit{Design of Fermentation Processes and FedBatch}, course material, 2026. PDF pp. 15 to 22, amount balances and oxygen transfer examples.
+
+\bibitem{CourseStructured}
+Indian Institute of Technology Bombay, CL 420, \textit{Structured Cybernetic Models, Expanded Notes}, course material, 2026. PDF pp. 2 to 6, intracellular structure and adaptation.
+
+\bibitem{MethanolDensity}
+Agilent Technologies, \textit{LC-MS Grade Methanol, Safety Data Sheet}, product 5190-6896, relative density at 20\,$^{\circ}$C. \href{https://www.agilent.com/cs/library/msds/5190-6896_UKEnglish.pdf}{Manufacturer data sheet}.
+\end{thebibliography}
+\endgroup
+\end{document}

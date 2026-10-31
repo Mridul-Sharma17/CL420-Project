@@ -1,0 +1,11 @@
+parameter,field,factor,QP_change_percent,P_change_percent,oxygen_feasible
+Growth rate coefficient,mu_max,0.8,-0.5031085297227289,23.124777995489087,True
+Growth rate coefficient,mu_max,1.2,0.33107346408625116,-15.281707393055843,False
+Growth inhibition constant,ki_mu,0.8,-0.1417140507585346,6.525658441531634,True
+Growth inhibition constant,ki_mu,1.2,0.0941291974452696,-4.3396357125875085,True
+Product rate coefficient,qp_max,0.8,-19.999999999994913,-18.11470597025304,True
+Product rate coefficient,qp_max,1.2,20.00000000000761,18.114705970252043,True
+Product inhibition constant,ki_qp,0.8,-9.466098919090216,-8.573779930237945,True
+Product inhibition constant,ki_qp,1.2,7.492870106307081,6.786556942445698,True
+Methanol maintenance,ms_x,0.8,0.3968789960273611,-0.28650480628250596,True
+Methanol maintenance,ms_x,1.2,-0.4018546150142188,0.2889286128735957,True

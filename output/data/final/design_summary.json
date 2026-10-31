@@ -1,0 +1,781 @@
+{
+  "software": {
+    "python": "3.14.4",
+    "numpy": "2.4.4",
+    "matplotlib": "3.11.1"
+  },
+  "kinetic_parameter_source": "Ponte Font 2017 thesis, Table 5.1, printed page 103",
+  "kinetic_parameters": {
+    "mu_max": 0.069,
+    "ks_mu": 0.5,
+    "ki_mu": 7.5,
+    "qp_max": 2200.0,
+    "ks_qp": 10.0,
+    "ki_qp": 1.2,
+    "ys_x": 5.14,
+    "ms_x": 0.013,
+    "yo2_x": 0.206,
+    "mo2_x": 0.00061,
+    "rho_methanol": 792.0,
+    "volume_0": 2.0,
+    "biomass_0": 27.0,
+    "methanol_0": 1.0,
+    "product_0": 50.0,
+    "x_max": 55.0,
+    "volume_max": 5.0,
+    "methanol_max": 10.0
+  },
+  "design_assumptions": {
+    "nitrogen_per_methanol": 0.12,
+    "nitrogen_stock": 200.0,
+    "initial_s": 2.0,
+    "maximum_volume": 3.5,
+    "dt": 0.01,
+    "horizon": 120.0,
+    "ramp_duration": 60.0,
+    "cs_target": 2.0,
+    "air_solubility": 0.00023,
+    "do_fraction_air": 0.25,
+    "kla": 1000.0,
+    "oxygen_fraction": 0.75,
+    "vvm": 2.0,
+    "gas_temperature": 303.15,
+    "gas_pressure": 1.0,
+    "capacity_allowance": 1.2,
+    "tank_diameter": 0.13,
+    "impeller_diameter": 0.065,
+    "impeller_count": 2,
+    "lower_impeller_center": 0.04,
+    "upper_impeller_center": 0.105,
+    "impeller_blade_height": 0.013,
+    "rpm": 1000.0,
+    "power_number": 5.0,
+    "gassed_power_fraction": 0.7,
+    "broth_density": 1000.0,
+    "recovery": 0.7,
+    "pre_induction_hours": 23.0,
+    "turnaround_hours": 6.0
+  },
+  "results": [
+    {
+      "model": "Haldane inhibition",
+      "strategy": "CF",
+      "time_h": 56.74360958471884,
+      "V_L": 3.479689924283026,
+      "X_g_L": 55.00000000000001,
+      "S_g_L": 0.10244545119814027,
+      "P_U_mL": 132.15343209765916,
+      "QP_U_L_h": 1822.5001904865276,
+      "activity_U": 459852.9661296456,
+      "net_activity_U": 359852.9661296456,
+      "methanol_feed_g": 794.4105341866572,
+      "methanol_consumed_g": 798.0540557823343,
+      "NH4Cl_g": 95.32926410239885,
+      "nitrogen_feed_L": 0.47664632051199424,
+      "YX_S_g_g": 0.17214741888742063,
+      "YP_S_U_g": 450.9130221472039,
+      "max_feed_g_h": 14.0,
+      "max_OUR_mol_h": 0.6143969282726952,
+      "max_OUR_mol_L_h": 0.294968798939544,
+      "min_oxygen_capacity_ratio": 1.9279612848028953,
+      "oxygen_feasible_with_allowance": true,
+      "stop": "biomass"
+    },
+    {
+      "model": "Haldane inhibition",
+      "strategy": "CM",
+      "time_h": 40.764312589506325,
+      "V_L": 3.343770538349169,
+      "X_g_L": 55.000000000000114,
+      "S_g_L": 0.3983891955486069,
+      "P_U_mL": 139.02677011629694,
+      "QP_U_L_h": 2676.861323608761,
+      "activity_U": 464873.6179567164,
+      "net_activity_U": 364873.6179567164,
+      "methanol_feed_g": 721.4386295909312,
+      "methanol_consumed_g": 724.1065075360592,
+      "NH4Cl_g": 86.57263555091174,
+      "nitrogen_feed_L": 0.4328631777545587,
+      "YX_S_g_g": 0.17940369028203426,
+      "YP_S_U_g": 503.8949576606951,
+      "max_feed_g_h": 30.671958887727772,
+      "max_OUR_mol_h": 1.2447068697669912,
+      "max_OUR_mol_L_h": 0.37224649702832396,
+      "min_oxygen_capacity_ratio": 1.5277200164948201,
+      "oxygen_feasible_with_allowance": true,
+      "stop": "biomass"
+    },
+    {
+      "model": "Haldane inhibition",
+      "strategy": "LM",
+      "time_h": 53.10782006962811,
+      "V_L": 3.3852524139058287,
+      "X_g_L": 55.000000000000206,
+      "S_g_L": 0.6131862160242271,
+      "P_U_mL": 136.79156703963392,
+      "QP_U_L_h": 2019.5080903653482,
+      "activity_U": 463073.9825228817,
+      "net_activity_U": 363073.9825228817,
+      "methanol_feed_g": 743.7092677693981,
+      "methanol_consumed_g": 745.6334776514284,
+      "NH4Cl_g": 89.24511213232778,
+      "nitrogen_feed_L": 0.4462255606616389,
+      "YX_S_g_g": 0.17728399639617232,
+      "YP_S_U_g": 486.9335852066086,
+      "max_feed_g_h": 37.34354802712476,
+      "max_OUR_mol_h": 1.5085409757474386,
+      "max_OUR_mol_L_h": 0.4456214164564815,
+      "min_oxygen_capacity_ratio": 1.27616942000315,
+      "oxygen_feasible_with_allowance": true,
+      "stop": "biomass"
+    },
+    {
+      "model": "Haldane inhibition",
+      "strategy": "CS",
+      "time_h": 26.54614420702816,
+      "V_L": 3.284960294049914,
+      "X_g_L": 55.00000000000022,
+      "S_g_L": 2.0000000000000107,
+      "P_U_mL": 273.66802274302813,
+      "QP_U_L_h": 9162.39483183133,
+      "activity_U": 898988.5884619962,
+      "net_activity_U": 798988.5884619962,
+      "methanol_feed_g": 689.8647999508757,
+      "methanol_consumed_g": 687.2948793627759,
+      "NH4Cl_g": 82.78377599410508,
+      "nitrogen_feed_L": 0.4139188799705254,
+      "YX_S_g_g": 0.18430635812417293,
+      "YP_S_U_g": 1162.512063530543,
+      "max_feed_g_h": 44.76435413384902,
+      "max_OUR_mol_h": 1.8034522260496022,
+      "max_OUR_mol_L_h": 0.5490027472527493,
+      "min_oxygen_capacity_ratio": 1.0358571563184509,
+      "oxygen_feasible_with_allowance": true,
+      "stop": "biomass"
+    },
+    {
+      "model": "Monod comparator",
+      "strategy": "CF",
+      "time_h": 56.74750760318556,
+      "V_L": 3.4797915720049826,
+      "X_g_L": 55.00000000000004,
+      "S_g_L": 0.10215469550605207,
+      "P_U_mL": 125.84912378861316,
+      "QP_U_L_h": 1711.295782618964,
+      "activity_U": 437928.72030382784,
+      "net_activity_U": 337928.72030382784,
+      "methanol_feed_g": 794.4651064451912,
+      "methanol_consumed_g": 798.1096293967285,
+      "NH4Cl_g": 95.33581277342293,
+      "nitrogen_feed_L": 0.47667906386711467,
+      "YX_S_g_g": 0.17214243682803682,
+      "YP_S_U_g": 423.4114059734624,
+      "max_feed_g_h": 14.0,
+      "max_OUR_mol_h": 0.6469848,
+      "max_OUR_mol_L_h": 0.3234924,
+      "min_oxygen_capacity_ratio": 1.7579653326639206,
+      "oxygen_feasible_with_allowance": true,
+      "stop": "biomass"
+    },
+    {
+      "model": "Monod comparator",
+      "strategy": "CM",
+      "time_h": 40.76023855115362,
+      "V_L": 3.343537801147141,
+      "X_g_L": 55.00000000000011,
+      "S_g_L": 0.382196927983725,
+      "P_U_mL": 135.96426676320036,
+      "QP_U_L_h": 2601.943228187106,
+      "activity_U": 454601.6655280142,
+      "net_activity_U": 354601.6655280142,
+      "methanol_feed_g": 721.3136784900594,
+      "methanol_consumed_g": 724.0357886138635,
+      "NH4Cl_g": 86.55764141880712,
+      "nitrogen_feed_L": 0.4327882070940356,
+      "YX_S_g_g": 0.1794035337835591,
+      "YP_S_U_g": 489.75709640939766,
+      "max_feed_g_h": 30.668210354701618,
+      "max_OUR_mol_h": 1.2445940193690397,
+      "max_OUR_mol_L_h": 0.3722386565936325,
+      "min_oxygen_capacity_ratio": 1.5277521947460684,
+      "oxygen_feasible_with_allowance": true,
+      "stop": "biomass"
+    },
+    {
+      "model": "Monod comparator",
+      "strategy": "LM",
+      "time_h": 53.09574502721579,
+      "V_L": 3.3844127594757683,
+      "X_g_L": 55.000000000000085,
+      "S_g_L": 0.5576353765635641,
+      "P_U_mL": 133.5718070180466,
+      "QP_U_L_h": 1959.188698263337,
+      "activity_U": 452062.1279781118,
+      "net_activity_U": 352062.1279781118,
+      "methanol_feed_g": 743.2584771588994,
+      "methanol_consumed_g": 745.3712088753226,
+      "NH4Cl_g": 89.19101725906792,
+      "nitrogen_feed_L": 0.4459550862953396,
+      "YX_S_g_g": 0.17728441908905404,
+      "YP_S_U_g": 472.3312676771244,
+      "max_feed_g_h": 37.32130370341612,
+      "max_OUR_mol_h": 1.508554967393487,
+      "max_OUR_mol_L_h": 0.44573610685333664,
+      "min_oxygen_capacity_ratio": 1.2758410544635757,
+      "oxygen_feasible_with_allowance": true,
+      "stop": "biomass"
+    },
+    {
+      "model": "Monod comparator",
+      "strategy": "CS",
+      "time_h": 21.73137831728878,
+      "V_L": 3.2583565563488524,
+      "X_g_L": 55.00000000000015,
+      "S_g_L": 2.00000000000001,
+      "P_U_mL": 285.943645051077,
+      "QP_U_L_h": 11745.841565039455,
+      "activity_U": 931706.3505984659,
+      "net_activity_U": 831706.3505984659,
+      "methanol_feed_g": 675.5818822046441,
+      "methanol_consumed_g": 673.0651690919464,
+      "NH4Cl_g": 81.06982586455729,
+      "nitrogen_feed_L": 0.40534912932278644,
+      "YX_S_g_g": 0.18602895581138396,
+      "YP_S_U_g": 1235.699585703636,
+      "max_feed_g_h": 53.375345976260014,
+      "max_OUR_mol_h": 2.1471461865109855,
+      "max_OUR_mol_L_h": 0.6589660000000024,
+      "min_oxygen_capacity_ratio": 0.8630011633077397,
+      "oxygen_feasible_with_allowance": false,
+      "stop": "biomass"
+    }
+  ],
+  "verification": [
+    {
+      "model": "Haldane inhibition",
+      "strategy": "CF",
+      "step_halving_relative_P_error": 1.4667500891852902e-13,
+      "substrate_integral_residual_g": -4.860407216256135e-06,
+      "product_integral_relative_error": 4.094137610384181e-08
+    },
+    {
+      "model": "Haldane inhibition",
+      "strategy": "CM",
+      "step_halving_relative_P_error": 1.1920713523227948e-11,
+      "substrate_integral_residual_g": -4.0216169736595475e-06,
+      "product_integral_relative_error": 1.6123792493565008e-07
+    },
+    {
+      "model": "Haldane inhibition",
+      "strategy": "LM",
+      "step_halving_relative_P_error": 1.938615133059411e-10,
+      "substrate_integral_residual_g": -5.637891831611341e-06,
+      "product_integral_relative_error": 4.020538557095566e-07
+    },
+    {
+      "model": "Haldane inhibition",
+      "strategy": "CS",
+      "step_halving_relative_P_error": 6.854409965785691e-15,
+      "substrate_integral_residual_g": -4.4314901970210485e-08,
+      "product_integral_relative_error": 1.7243714637157195e-08
+    },
+    {
+      "model": "Monod comparator",
+      "strategy": "CF",
+      "step_halving_relative_P_error": 3.2916114350075104e-13,
+      "substrate_integral_residual_g": 5.894100354453258e-06,
+      "product_integral_relative_error": 1.836527173190156e-07
+    },
+    {
+      "model": "Monod comparator",
+      "strategy": "CM",
+      "step_halving_relative_P_error": 2.6507282920182693e-11,
+      "substrate_integral_residual_g": 3.9810008843232936e-05,
+      "product_integral_relative_error": 6.663063779083794e-07
+    },
+    {
+      "model": "Monod comparator",
+      "strategy": "LM",
+      "step_halving_relative_P_error": 2.402469044743694e-10,
+      "substrate_integral_residual_g": 7.518732797962002e-05,
+      "product_integral_relative_error": 1.2343068108025988e-06
+    },
+    {
+      "model": "Monod comparator",
+      "strategy": "CS",
+      "step_halving_relative_P_error": 1.987923839001717e-15,
+      "substrate_integral_residual_g": -6.389780082827201e-08,
+      "product_integral_relative_error": 2.538933737220572e-08
+    }
+  ],
+  "exact_CS_relative_error": 4.154187858051906e-15,
+  "best_feasible_constant_setpoint": {
+    "setpoint_g_L": 3.4,
+    "model": "Haldane inhibition",
+    "strategy": "CS",
+    "time_h": 28.125785782462234,
+    "V_L": 3.3011739928881503,
+    "X_g_L": 54.99999999999999,
+    "S_g_L": 3.4,
+    "P_U_mL": 321.35309603290665,
+    "QP_U_L_h": 10348.540823517662,
+    "activity_U": 1060842.4831579197,
+    "net_activity_U": 960842.4831579197,
+    "methanol_feed_g": 698.5695514963496,
+    "methanol_consumed_g": 694.1455599205299,
+    "NH4Cl_g": 83.82834617956195,
+    "nitrogen_feed_L": 0.41914173089780976,
+    "YX_S_g_g": 0.18377207458253084,
+    "YP_S_U_g": 1384.2089305705895,
+    "max_feed_g_h": 42.868014105694414,
+    "max_OUR_mol_h": 1.723333392771721,
+    "max_OUR_mol_L_h": 0.5220365229110511,
+    "min_oxygen_capacity_ratio": 1.0893652064975308,
+    "oxygen_feasible_with_allowance": true,
+    "stop": "biomass"
+  },
+  "best_feasible_monod_setpoint": {
+    "setpoint_g_L": 1.0,
+    "model": "Monod comparator",
+    "strategy": "CS",
+    "time_h": 26.207515983046488,
+    "V_L": 3.2778790972326246,
+    "X_g_L": 55.00000000000001,
+    "S_g_L": 1.0,
+    "P_U_mL": 198.011587900964,
+    "QP_U_L_h": 6391.451080368403,
+    "activity_U": 649058.0449904103,
+    "net_activity_U": 549058.0449904103,
+    "methanol_feed_g": 686.0630728092724,
+    "methanol_consumed_g": 684.7851937120398,
+    "NH4Cl_g": 82.32756873711268,
+    "nitrogen_feed_L": 0.41163784368556344,
+    "YX_S_g_g": 0.18441308531109682,
+    "YP_S_U_g": 801.7960230917254,
+    "max_feed_g_h": 45.05379729682994,
+    "max_OUR_mol_h": 1.818337871607854,
+    "max_OUR_mol_L_h": 0.5547300000000001,
+    "min_oxygen_capacity_ratio": 1.0251625558023725,
+    "oxygen_feasible_with_allowance": true,
+    "stop": "biomass"
+  },
+  "baseline_CS": {
+    "model": "Haldane inhibition",
+    "strategy": "CS",
+    "time_h": 26.54614420702816,
+    "V_L": 3.284960294049914,
+    "X_g_L": 55.00000000000022,
+    "S_g_L": 2.0000000000000107,
+    "P_U_mL": 273.66802274302813,
+    "QP_U_L_h": 9162.39483183133,
+    "activity_U": 898988.5884619962,
+    "net_activity_U": 798988.5884619962,
+    "methanol_feed_g": 689.8647999508757,
+    "methanol_consumed_g": 687.2948793627759,
+    "NH4Cl_g": 82.78377599410508,
+    "nitrogen_feed_L": 0.4139188799705254,
+    "YX_S_g_g": 0.18430635812417293,
+    "YP_S_U_g": 1162.512063530543,
+    "max_feed_g_h": 44.76435413384902,
+    "max_OUR_mol_h": 1.8034522260496022,
+    "max_OUR_mol_L_h": 0.5490027472527493,
+    "min_oxygen_capacity_ratio": 1.0358571563184509,
+    "oxygen_feasible_with_allowance": true,
+    "stop": "biomass"
+  },
+  "selected_CS": {
+    "model": "Haldane inhibition",
+    "strategy": "CS-selected",
+    "time_h": 28.125785782464224,
+    "V_L": 3.3011739928882045,
+    "X_g_L": 55.000000000000135,
+    "S_g_L": 3.3999999999999697,
+    "P_U_mL": 321.35309603290824,
+    "QP_U_L_h": 10348.540823517003,
+    "activity_U": 1060842.4831579423,
+    "net_activity_U": 960842.4831579423,
+    "methanol_feed_g": 698.5695514963787,
+    "methanol_consumed_g": 694.1455599205589,
+    "NH4Cl_g": 83.82834617956544,
+    "nitrogen_feed_L": 0.4191417308978272,
+    "YX_S_g_g": 0.18377207458252812,
+    "YP_S_U_g": 1384.2089305705642,
+    "max_feed_g_h": 42.868014105695295,
+    "max_OUR_mol_h": 1.7233333927717562,
+    "max_OUR_mol_L_h": 0.5220365229110532,
+    "min_oxygen_capacity_ratio": 1.0893652064975263,
+    "oxygen_feasible_with_allowance": true,
+    "stop": "biomass"
+  },
+  "selected_CS_verification": {
+    "step_halving_relative_error": 7.07550909731859e-15,
+    "exact_solution_relative_error": 4.952856368122978e-15
+  },
+  "hardware_initial": {
+    "ungassed_power_W": 53.71715856481483,
+    "gassed_power_W": 37.60201099537038,
+    "gassed_power_W_m3": 18801.00549768519,
+    "gas_L_min": 4.0,
+    "superficial_velocity_m_s": 0.005022641202111095,
+    "tip_speed_m_s": 3.403392041388943,
+    "liquid_depth_m": 0.15067923606333283,
+    "upper_blade_immersion_m": 0.03917923606333284,
+    "kla_water_h_inv": 339.94946089194536,
+    "kla_electrolyte_h_inv": 2451.577805210035
+  },
+  "hardware_harvest": {
+    "ungassed_power_W": 53.71715856481483,
+    "gassed_power_W": 37.60201099537038,
+    "gassed_power_W_m3": 11390.496555582124,
+    "gas_L_min": 6.602347985776409,
+    "superficial_velocity_m_s": 0.008290306256008947,
+    "tip_speed_m_s": 3.403392041388943,
+    "liquid_depth_m": 0.24870918768026842,
+    "upper_blade_immersion_m": 0.1372091876802684,
+    "kla_water_h_inv": 357.4194636073923,
+    "kla_electrolyte_h_inv": 1908.2113348057596
+  },
+  "budget": {
+    "rows": [
+      {
+        "item": "Seed medium and basal salts",
+        "quantity": 1.0,
+        "unit": "batch",
+        "INR_per_unit": 450.0,
+        "cost_INR": 450.0
+      },
+      {
+        "item": "Initial glycerol",
+        "quantity": 0.08,
+        "unit": "kg",
+        "INR_per_unit": 200.0,
+        "cost_INR": 16.0
+      },
+      {
+        "item": "Transition feeds, pH stocks and antifoam",
+        "quantity": 1.0,
+        "unit": "batch allowance",
+        "INR_per_unit": 250.0,
+        "cost_INR": 250.0
+      },
+      {
+        "item": "Induction methanol",
+        "quantity": 0.7053695514963787,
+        "unit": "kg",
+        "INR_per_unit": 80.0,
+        "cost_INR": 56.42956411971029
+      },
+      {
+        "item": "Induction NH4Cl",
+        "quantity": 0.08382834617956544,
+        "unit": "kg",
+        "INR_per_unit": 200.0,
+        "cost_INR": 16.765669235913087
+      },
+      {
+        "item": "Supplemental oxygen, induction",
+        "quantity": 5.818814575434301,
+        "unit": "m3 at 30 C, 1 bar",
+        "INR_per_unit": 100.0,
+        "cost_INR": 581.8814575434301
+      },
+      {
+        "item": "Compressed air, all phases",
+        "quantity": 5.453895636775139,
+        "unit": "m3 at 30 C, 1 bar",
+        "INR_per_unit": 10.0,
+        "cost_INR": 54.538956367751396
+      },
+      {
+        "item": "Mixing electricity",
+        "quantity": 2.746331941627386,
+        "unit": "kWh",
+        "INR_per_unit": 10.0,
+        "cost_INR": 27.46331941627386
+      },
+      {
+        "item": "Sterilization and cooling",
+        "quantity": 1.0,
+        "unit": "batch allowance",
+        "INR_per_unit": 300.0,
+        "cost_INR": 300.0
+      },
+      {
+        "item": "Reactor occupancy",
+        "quantity": 57.12578578246422,
+        "unit": "h",
+        "INR_per_unit": 100.0,
+        "cost_INR": 5712.578578246422
+      },
+      {
+        "item": "Clarification, membrane use and buffers",
+        "quantity": 1.0,
+        "unit": "batch allowance",
+        "INR_per_unit": 1500.0,
+        "cost_INR": 1500.0
+      },
+      {
+        "item": "Hands-on labor",
+        "quantity": 6.0,
+        "unit": "h",
+        "INR_per_unit": 150.0,
+        "cost_INR": 900.0
+      },
+      {
+        "item": "Waste treatment",
+        "quantity": 1.0,
+        "unit": "batch allowance",
+        "INR_per_unit": 150.0,
+        "cost_INR": 150.0
+      }
+    ],
+    "total_INR": 10015.6575449295,
+    "recovery": 0.7,
+    "recovered_activity_U": 742589.7382105596,
+    "INR_per_million_recovered_U": 13487.470981035269,
+    "occupancy_h": 57.12578578246422,
+    "total_induction_gas_L": 8512.71021220944,
+    "supplemental_oxygen_L": 5818.8145754343,
+    "induction_air_L": 2693.89563677514,
+    "mixing_kWh": 2.746331941627386,
+    "pre_induction_gas_limitation": "air allowance only; transition enrichment included in stock allowance, not metered"
+  },
+  "capacity_scenarios": [
+    {
+      "kla_h_inv": 500,
+      "inlet_O2_fraction": 0.21,
+      "min_capacity_to_required_ratio": 0.1300586314185352,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 500,
+      "inlet_O2_fraction": 0.4,
+      "min_capacity_to_required_ratio": 0.28695475820914906,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 500,
+      "inlet_O2_fraction": 0.6,
+      "min_capacity_to_required_ratio": 0.4521085758834794,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 500,
+      "inlet_O2_fraction": 0.75,
+      "min_capacity_to_required_ratio": 0.5759739391392272,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 500,
+      "inlet_O2_fraction": 0.9,
+      "min_capacity_to_required_ratio": 0.6998393023949749,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 500,
+      "inlet_O2_fraction": 1.0,
+      "min_capacity_to_required_ratio": 0.7824162112321401,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 750,
+      "inlet_O2_fraction": 0.21,
+      "min_capacity_to_required_ratio": 0.18968850386293518,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 750,
+      "inlet_O2_fraction": 0.4,
+      "min_capacity_to_required_ratio": 0.4185190799515554,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 750,
+      "inlet_O2_fraction": 0.6,
+      "min_capacity_to_required_ratio": 0.6593933705711554,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 750,
+      "inlet_O2_fraction": 0.75,
+      "min_capacity_to_required_ratio": 0.8400490885358556,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 750,
+      "inlet_O2_fraction": 0.9,
+      "min_capacity_to_required_ratio": 1.0207048065005557,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 750,
+      "inlet_O2_fraction": 1.0,
+      "min_capacity_to_required_ratio": 1.141141951810356,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1000,
+      "inlet_O2_fraction": 0.21,
+      "min_capacity_to_required_ratio": 0.2459856917897641,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 1000,
+      "inlet_O2_fraction": 0.4,
+      "min_capacity_to_required_ratio": 0.5427303358536064,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 1000,
+      "inlet_O2_fraction": 0.6,
+      "min_capacity_to_required_ratio": 0.8550931190787034,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 1000,
+      "inlet_O2_fraction": 0.75,
+      "min_capacity_to_required_ratio": 1.0893652064975263,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1000,
+      "inlet_O2_fraction": 0.9,
+      "min_capacity_to_required_ratio": 1.3236372939163492,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1000,
+      "inlet_O2_fraction": 1.0,
+      "min_capacity_to_required_ratio": 1.4798186855288977,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1250,
+      "inlet_O2_fraction": 0.21,
+      "min_capacity_to_required_ratio": 0.2991364573129315,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 1250,
+      "inlet_O2_fraction": 0.4,
+      "min_capacity_to_required_ratio": 0.6599994851824996,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 1250,
+      "inlet_O2_fraction": 0.6,
+      "min_capacity_to_required_ratio": 1.0398553039925713,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1250,
+      "inlet_O2_fraction": 0.75,
+      "min_capacity_to_required_ratio": 1.3247471681001248,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1250,
+      "inlet_O2_fraction": 0.9,
+      "min_capacity_to_required_ratio": 1.6096390322076788,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1250,
+      "inlet_O2_fraction": 1.0,
+      "min_capacity_to_required_ratio": 1.7995669416127145,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1500,
+      "inlet_O2_fraction": 0.21,
+      "min_capacity_to_required_ratio": 0.3493166524475531,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 1500,
+      "inlet_O2_fraction": 0.4,
+      "min_capacity_to_required_ratio": 0.7707145188922203,
+      "feasible": false
+    },
+    {
+      "kla_h_inv": 1500,
+      "inlet_O2_fraction": 0.6,
+      "min_capacity_to_required_ratio": 1.2142912204129226,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1500,
+      "inlet_O2_fraction": 0.75,
+      "min_capacity_to_required_ratio": 1.5469737465534492,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1500,
+      "inlet_O2_fraction": 0.9,
+      "min_capacity_to_required_ratio": 1.879656272693976,
+      "feasible": true
+    },
+    {
+      "kla_h_inv": 1500,
+      "inlet_O2_fraction": 1.0,
+      "min_capacity_to_required_ratio": 2.101444623454327,
+      "feasible": true
+    }
+  ],
+  "cost_sensitivity": [
+    {
+      "activity_recovery": 0.5,
+      "all_budget_rate_factor": 0.75,
+      "batch_cost_INR": 7511.743158697125,
+      "INR_per_million_recovered_U": 14161.844530087033
+    },
+    {
+      "activity_recovery": 0.5,
+      "all_budget_rate_factor": 1.0,
+      "batch_cost_INR": 10015.6575449295,
+      "INR_per_million_recovered_U": 18882.459373449376
+    },
+    {
+      "activity_recovery": 0.5,
+      "all_budget_rate_factor": 1.25,
+      "batch_cost_INR": 12519.571931161874,
+      "INR_per_million_recovered_U": 23603.07421681172
+    },
+    {
+      "activity_recovery": 0.7,
+      "all_budget_rate_factor": 0.75,
+      "batch_cost_INR": 7511.743158697125,
+      "INR_per_million_recovered_U": 10115.603235776452
+    },
+    {
+      "activity_recovery": 0.7,
+      "all_budget_rate_factor": 1.0,
+      "batch_cost_INR": 10015.6575449295,
+      "INR_per_million_recovered_U": 13487.470981035269
+    },
+    {
+      "activity_recovery": 0.7,
+      "all_budget_rate_factor": 1.25,
+      "batch_cost_INR": 12519.571931161874,
+      "INR_per_million_recovered_U": 16859.338726294085
+    },
+    {
+      "activity_recovery": 0.9,
+      "all_budget_rate_factor": 0.75,
+      "batch_cost_INR": 7511.743158697125,
+      "INR_per_million_recovered_U": 7867.691405603906
+    },
+    {
+      "activity_recovery": 0.9,
+      "all_budget_rate_factor": 1.0,
+      "batch_cost_INR": 10015.6575449295,
+      "INR_per_million_recovered_U": 10490.255207471875
+    },
+    {
+      "activity_recovery": 0.9,
+      "all_budget_rate_factor": 1.25,
+      "batch_cost_INR": 12519.571931161874,
+      "INR_per_million_recovered_U": 13112.819009339843
+    }
+  ]
+}
